@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model weather {
+  city    String?   @db.VarChar(100)
+  temp_lo Int?
+  temp_hi Int?
+  prcp    Float?    @db.Real
+  date    DateTime? @db.Date
+  id      Int       @id(map: "weather_pk") @default(autoincrement())
+}

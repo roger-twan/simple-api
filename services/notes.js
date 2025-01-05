@@ -1,8 +1,24 @@
 const { Note, notesList } = require('../models/notes')
+const { PrismaClient } = require('@prisma/client')
+const prisma = new PrismaClient()
 
 class NotesService {
+  static async _query() {
+    const weathers = await prisma.weather.findMany()
+    console.log(weathers)
+  }
+
   // Get all notes
   static getAllNotes() {
+    this._query().then(async () => {
+      await prisma.$disconnect()
+    })
+    .catch(async (e) => {
+      console.error(e)
+      await prisma.$disconnect()
+      process.exit(1)
+    })
+
     return notesList
   }
 
